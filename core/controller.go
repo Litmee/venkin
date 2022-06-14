@@ -3,7 +3,7 @@ package core
 import "net/http"
 
 // Controller Control Layer Interface Model
-// 用来定义控制层结构
+// Used to define the type of request
 // Get()      Http GET Request
 // Post()     Http POST Request
 // Put()      Http PUT Request

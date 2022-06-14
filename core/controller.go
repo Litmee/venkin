@@ -2,13 +2,13 @@ package core
 
 import "net/http"
 
-// Controller 控制层接口模型
+// Controller Control Layer Interface Model
 // 用来定义控制层结构
-// Get()      Http GET 请求
-// Post()     Http POST 请求
-// Put()      Http PUT 请求
-// Delete()   Http DELETE 请求
-// Other()    Http 其他请求
+// Get()      Http GET Request
+// Post()     Http POST Request
+// Put()      Http PUT Request
+// Delete()   Http DELETE Request
+// Other()    Http Other Requests
 type Controller interface {
 	Get()
 	Post()

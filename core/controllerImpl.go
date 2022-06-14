@@ -5,30 +5,31 @@ import (
 	"venkin/logger"
 )
 
-// ControllerImpl Controller 接口实现体
+// ControllerImpl Controller interface implementation
 type ControllerImpl struct {
 	w    http.ResponseWriter
 	r    *http.Request
 	data interface{}
 }
 
-// 结构体 *http.Request 初始化方法
+// structure *http.Request parameter initialization method
 func (cI *ControllerImpl) initReq(r *http.Request) {
 	cI.r = r
 }
 
-// 结构体 http.ResponseWriter 初始化方法
+// structure http.ResponseWriter parameter initialization method
 func (cI *ControllerImpl) initRsp(w http.ResponseWriter) {
 	cI.w = w
 }
 
-// http method 推断方法, 决定去调用哪个请求
+// Infer method, decide which request to call
 func (cI *ControllerImpl) judgeMethod(m string, c Controller) {
-	// 进行 JSON 检查以及序列化操作
+	// JSON inspection and serialization
 	if !cI.jsonCheckAndSerialize(c) {
 		return
 	}
-	// JSON 序列化成功后根据 http 请求的 method 类型调用控制层模型对应实现的方法
+	// After the JSON serialization is successful
+	// the method corresponding to the implementation of the control layer model is called according to the method type of the http request
 	if m == "GET" {
 		c.Get()
 		return
@@ -48,9 +49,9 @@ func (cI *ControllerImpl) judgeMethod(m string, c Controller) {
 	c.Other()
 }
 
-// Get 路由默认的 GET 请求处理方法
+// Get Route default GET request handling method
 func (cI *ControllerImpl) Get() {
-	// 开启新协程记录日志
+	// Start new coroutine logging
 	go func() {
 		logger.LogHttpMethodErr(cI.r.URL.String(), cI.r.Method)
 	}()
@@ -64,13 +65,13 @@ func (cI *ControllerImpl) Get() {
 	}
 }
 
-// Post 路由默认的 POST 请求处理方法
+// Post Route default POST request handling method
 func (cI *ControllerImpl) Post() {
-	// 开启新协程记录日志
+	// Start new coroutine logging
 	go func() {
 		logger.LogHttpMethodErr(cI.r.URL.String(), cI.r.Method)
 	}()
-	// 回写 http 请求状态
+	// write-back http request status
 	cI.w.WriteHeader(http.StatusNotFound)
 	_, err := cI.w.Write([]byte("404 Method Not Found"))
 	if err != nil {
@@ -80,13 +81,13 @@ func (cI *ControllerImpl) Post() {
 	}
 }
 
-// Put 路由默认的 POST 请求处理方法
+// Put Route default POST request handling method
 func (cI *ControllerImpl) Put() {
-	// 开启新协程记录日志
+	// Start new coroutine logging
 	go func() {
 		logger.LogHttpMethodErr(cI.r.URL.String(), cI.r.Method)
 	}()
-	// 回写 http 请求状态
+	// write-back http request status
 	cI.w.WriteHeader(http.StatusNotFound)
 	_, err := cI.w.Write([]byte("404 Method Not Found"))
 	if err != nil {
@@ -96,13 +97,13 @@ func (cI *ControllerImpl) Put() {
 	}
 }
 
-// Delete 路由默认的 DELETE 请求处理方法
+// Delete Route the default DELETE request handler
 func (cI *ControllerImpl) Delete() {
-	// 开启新协程记录日志
+	// Start new coroutine logging
 	go func() {
 		logger.LogHttpMethodErr(cI.r.URL.String(), cI.r.Method)
 	}()
-	// 回写 http 请求状态
+	// write-back http request status
 	cI.w.WriteHeader(http.StatusNotFound)
 	_, err := cI.w.Write([]byte("404 Method Not Found"))
 	if err != nil {
@@ -112,13 +113,13 @@ func (cI *ControllerImpl) Delete() {
 	}
 }
 
-// Other 路由默认的其他类型请求处理方法
+// Other Route default other types of request processing methods
 func (cI *ControllerImpl) Other() {
-	// 开启新协程记录日志
+	// Start new coroutine logging
 	go func() {
 		logger.LogHttpMethodErr(cI.r.URL.String(), cI.r.Method)
 	}()
-	// 回写 http 请求状态
+	// write-back http request status
 	cI.w.WriteHeader(http.StatusNotFound)
 	_, err := cI.w.Write([]byte("404 Method Not Found"))
 	if err != nil {

@@ -2,18 +2,20 @@ package conf
 
 import "net/http"
 
-// IsGlobalInterceptor 全局拦截器参数
+// IsGlobalInterceptor Global interceptor parameters
 var IsGlobalInterceptor GlobalInterceptor
 
-// GlobalInterceptor 全局拦截器接口
-// 自定义拦截器需要实现该接口
+// GlobalInterceptor Global interceptor interface
+// Custom interceptors need to implement this interface
 type GlobalInterceptor interface {
-	// Interceptor 返回参数1: true 代表放行, false 代表拒绝
-	// Interceptor 返回参数2: true 代表走框架默认被拦截后的返回信息, false 代表不走框架内置返回信息此时需要开发者自定义返回信息不然调用者接收不到任何提示信息
+	// Interceptor Return parameter 1: true means release, false means reject
+	// Interceptor Return parameter 2: true represents the return information after the framework is intercepted by default
+	// false represents the return information built-in without the framework
+	// At this time, the developer needs to customize the return information, otherwise the caller will not receive any prompt information
 	Interceptor(w *http.ResponseWriter, r *http.Request) (bool, bool)
 }
 
-// GlobalInterceptorFunc 全局拦截器校验方法
+// GlobalInterceptorFunc Global interceptor verification method
 func GlobalInterceptorFunc(w *http.ResponseWriter, r *http.Request) (bool, bool) {
 	if IsGlobalInterceptor != nil {
 		return IsGlobalInterceptor.Interceptor(w, r)

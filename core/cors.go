@@ -2,25 +2,25 @@ package core
 
 import "net/http"
 
-// AllowOrigin 允许跨域的范围
+// AllowOrigin Scopes allowed across domains
 var allowOrigin string
 
-// AllowMethods 允许跨域的方法
+// AllowMethods Methods that allow cross-domain
 var allowMethods string
 
-// AllowHeaders 允许跨域的头信息
+// AllowHeaders Allow cross-domain headers
 var allowHeaders string
 
-// AllowOriginBool 是否已配置允许跨域的范围
+// AllowOriginBool Whether a scope has been configured to allow cross-domain
 var allowOriginBool bool
 
-// AllowMethodsBool 是否已配置允许跨域的方法
+// AllowMethodsBool Has the method configured to allow cross-domain
 var allowMethodsBool bool
 
-// AllowHeadersBool 是否已配置允许跨域的头信息
+// AllowHeadersBool Whether the header information that allows cross-domain has been configured
 var allowHeadersBool bool
 
-// 设置跨域工具函数
+// Set up cross-domain utility functions
 func setCorsFunc(w *http.ResponseWriter) {
 	if allowOriginBool {
 		(*w).Header().Set("Access-Control-Allow-Origin", allowOrigin)

@@ -1,4 +1,4 @@
 package core
 
-// RouterMap 全局路由映射集合
+// RouterMap global route map collection
 var RouterMap = make(map[string]Controller)

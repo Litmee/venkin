@@ -6,25 +6,30 @@ import (
 	"venkin/logger"
 )
 
-// GetReqBody 获取 http 请求携带的数据(已 JSON 序列化)
+// GetReqBody Get The Data Carried By The Http Request
+// The Data Has Been Serialized To The Type Assigned By The User At The Beginning
+// But The Corresponding Type Conversion Is Still Required After Getting It
 func (cI *ControllerImpl) GetReqBody() interface{} {
 	return cI.data
 }
 
-// GetReqBodyFunc 获取 http 请求携带的数据工具方法
-// 相比上面的使用者拿到数据后不需要自己做类型转换, 可以直接赋给控制层结构体内的 JSON 序列化结构体类型
+// GetReqBodyFunc Get The Data Tool Method Carried By The Http Request
+// Compared With The GetReqBody Method
+// Users Don't Need To Do Type Conversion After They Get The Data
+// They Can Directly Assign The Required Type After Getting The Return Value
+// This Function Is Recommended To Avoid Unnecessary Type Conversion Errors During Development
 func GetReqBodyFunc[T interface{}](cI *ControllerImpl) *T {
 	return cI.data.(*T)
 }
 
-// SetRspBody 返回 http 请求数据
+// SetRspBody Return The Data Required By The Http Request
 func (cI *ControllerImpl) SetRspBody(data []byte) {
 	_, err := cI.w.Write(data)
 	if err != nil {
 		go func() {
 			logger.LogHttpWriteErr(err)
 		}()
-		// 失败后的补偿机制
+		// Compensation mechanism after failure
 		i := 0
 		for i < 3 {
 			i += 1
@@ -41,7 +46,7 @@ func (cI *ControllerImpl) SetRspBody(data []byte) {
 	}
 }
 
-// 引擎启动检查函数
+// Engine Start Check Function
 func startCheck(addr string) {
 	var conn net.Conn
 	var err error
@@ -54,7 +59,7 @@ func startCheck(addr string) {
 	for {
 		conn, err = net.Dial("tcp", addr)
 		if err == nil {
-			logger.LogRun("HTTP 引擎启动成功")
+			logger.LogRun("HTTP Engine Started Successfully")
 			break
 		}
 	}

@@ -6,14 +6,24 @@ import (
 	"venkin/logger"
 )
 
-// Run 引擎启动
-func Run(c conf.WebConf) {
-	logger.LogRun("HTTP 引擎启动中")
-	// 配置全局拦截器
+// Run Engine Start
+func Run(c *conf.WebConf) {
+	logger.LogRun("HTTP Engine Starting")
+	if c == nil {
+		// Enable Default Configuration
+		c = conf.DefaultWebConf
+		logger.LogRun("##################### Default Configuration Enabled #####################")
+		logger.LogRun("Port: " + c.Port)
+		logger.LogRun("GlobalInterceptor: nil")
+		logger.LogRun("Access-Control-Allow-Origin: " + c.AllowOrigin)
+		logger.LogRun("Access-Control-Allow-Headers: " + c.AllowHeaders)
+		logger.LogRun("##################### Default Configuration Enabled #####################")
+	}
+	// Configure Global Interceptors
 	conf.IsGlobalInterceptor = c.IsGlobalInterceptor
-	logger.LogRun("拦截器初始化完毕")
+	logger.LogRun("The Interceptor Is Initialized")
 
-	// 跨域参数的预处理
+	// Preprocessing Of Cross-Domain Parameters
 	if c.AllowOrigin != "" {
 		allowOrigin = c.AllowOrigin
 		allowOriginBool = true
@@ -26,12 +36,14 @@ func Run(c conf.WebConf) {
 		allowHeaders = c.AllowHeaders
 		allowHeadersBool = true
 	}
-	logger.LogRun("跨域参数初始化完毕")
-	// 启动检查函数
-	go startCheck(c.Ip + ":" + c.Port)
-	// 启动服务监听
-	err := http.ListenAndServe(c.Ip+":"+c.Port, &GlobalHandler{})
+	logger.LogRun("Cross-Domain Parameter Initialization Is Complete")
+
+	// Call Check Function
+	go startCheck(conf.Ip + c.Port)
+
+	// Start Service Monitoring
+	err := http.ListenAndServe(conf.Ip+c.Port, &GlobalHandler{})
 	if err != nil {
-		panic("HTTP 服务监听启动失败")
+		panic("HTTP Service Monitoring Failed To Start")
 	}
 }

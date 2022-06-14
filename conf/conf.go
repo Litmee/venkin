@@ -1,12 +1,29 @@
 package conf
 
-// WebConf Web 配置中心结构体
+const Ip = "127.0.0.1:"
+
+// DefaultWebConf Default global configuration parameters
+var DefaultWebConf *WebConf
+
+// WebConf Configure the central structure
 type WebConf struct {
-	Ip                  string
-	Port                string
+	// port
+	Port string
+	// global interceptor
 	IsGlobalInterceptor GlobalInterceptor
-	AllowOrigin         string
-	AllowMethods        string
-	AllowHeaders        string
-	MysqlUrl            string
+	// scopes allowed across domains
+	AllowOrigin string
+	// allow cross-origin request types
+	AllowMethods string
+	// request headers that are allowed to be carried across domains
+	AllowHeaders string
+}
+
+func init() {
+	DefaultWebConf = &WebConf{
+		Port:                "8062",
+		IsGlobalInterceptor: nil,
+		AllowOrigin:         "*",
+		AllowHeaders:        "Content-Type",
+	}
 }

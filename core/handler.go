@@ -7,36 +7,36 @@ import (
 	"venkin/logger"
 )
 
-// GlobalHandler 全局路由回调结构体
+// GlobalHandler Global route callback structure
 type GlobalHandler struct {
 }
 
-// 全局路由回调分发
+// Global routing callback distribution
 func (g *GlobalHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	// 给请求配置跨域信息
+	// Configure cross-domain information for requests
 	setCorsFunc(&w)
-	// 跨域预检处理
+	// Cross-domain preflight processing
 	if r.Method == "OPTIONS" {
 		return
 	}
-	// 调用请求分发函数
+	// Call the request dispatch function
 	handOutCore(&w, r)
 }
 
-// 请求分发中心函数
+// Request distribution center function
 func handOutCore(w *http.ResponseWriter, r *http.Request) {
-	// 全局拦截器判断
+	// Global interceptor judgment
 	a, b := conf.GlobalInterceptorFunc(w, r)
 	if a {
-		// 获取路由映射
+		// get route map
 		c, ok := RouterMap[r.URL.Path]
 		if ok {
-			// 通过反射获取用户自建的路由控制层的业务结构体
+			// Obtain the business structure of the user-built routing control layer through reflection
 			copyC := reflect.New(reflect.TypeOf(c).Elem()).Interface().(Controller)
-			// 初始化 ResponseWriter & Request
+			// initialization ResponseWriter & Request
 			copyC.initRsp(*w)
 			copyC.initReq(r)
-			// http method 推断执行
+			// http method speculative execution
 			copyC.judgeMethod(r.Method, copyC)
 		} else {
 			(*w).WriteHeader(http.StatusNotFound)
@@ -46,7 +46,7 @@ func handOutCore(w *http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if b {
-		// 内置返回信息
+		// Built-in return information
 		(*w).WriteHeader(http.StatusMethodNotAllowed)
 		_, err := (*w).Write([]byte("405 is interceptor"))
 		if err != nil {

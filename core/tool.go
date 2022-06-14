@@ -2,7 +2,6 @@ package core
 
 import (
 	"net"
-	"time"
 	"venkin/logger"
 )
 
@@ -26,23 +25,7 @@ func GetReqBodyFunc[T interface{}](cI *ControllerImpl) *T {
 func (cI *ControllerImpl) SetRspBody(data []byte) {
 	_, err := cI.w.Write(data)
 	if err != nil {
-		go func() {
-			logger.LogHttpWriteErr(err)
-		}()
-		// Compensation mechanism after failure
-		i := 0
-		for i < 3 {
-			i += 1
-			_, err = cI.w.Write(data)
-			if err != nil {
-				go func() {
-					logger.LogHttpWriteErr(err)
-				}()
-				time.Sleep(time.Millisecond * 500)
-				continue
-			}
-			break
-		}
+		return
 	}
 }
 

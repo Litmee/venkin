@@ -25,7 +25,9 @@ func GetReqBodyFunc[T interface{}](cI *ControllerImpl) *T {
 func (cI *ControllerImpl) SetRspBody(data []byte) {
 	_, err := cI.w.Write(data)
 	if err != nil {
-		return
+		go func() {
+			logger.LogHttpWriteErr(err)
+		}()
 	}
 }
 

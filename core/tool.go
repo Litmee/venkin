@@ -1,6 +1,7 @@
 package core
 
 import (
+	"net"
 	"time"
 	"venkin/logger"
 )
@@ -35,6 +36,25 @@ func (cI *ControllerImpl) SetRspBody(data []byte) {
 				time.Sleep(time.Millisecond * 500)
 				continue
 			}
+			break
+		}
+	}
+}
+
+// 引擎启动检查函数
+func startCheck(addr string) {
+	var conn net.Conn
+	var err error
+	defer func(conn *net.Conn) {
+		err := (*conn).Close()
+		if err != nil {
+			return
+		}
+	}(&conn)
+	for {
+		conn, err = net.Dial("tcp", addr)
+		if err == nil {
+			logger.LogRun("HTTP 引擎启动成功")
 			break
 		}
 	}

@@ -60,9 +60,9 @@ type User struct {
 
 // At this point we are implementing the post request
 func (h *HelloWord) Post() {
+
     // get request parameters
     // Two ways to obtain data, users can choose by themselves
-
     // user := h.GetReqBody().(*User)
     user := core.GetReqBodyFunc[User](&h.ControllerImpl)
 

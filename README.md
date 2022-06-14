@@ -76,4 +76,4 @@ func main() {
     core.Run(nil)
 }
 ```
-#<img src="docs/example.png" width="100%" height="100%"/>
+<img src="docs/example.png" width="1831" height="574" alt="example"/>

@@ -14,6 +14,6 @@ func LogJsonSerialize(e error) {
 	log.Println(e)
 }
 
-func LogRun() {
-	log.Println("Web 引擎已启动")
+func LogRun(s string) {
+	log.Println(s)
 }

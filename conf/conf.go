@@ -17,6 +17,8 @@ type WebConf struct {
 	AllowMethods string
 	// request headers that are allowed to be carried across domains
 	AllowHeaders string
+	// Mysql Addr
+	MySqlAddr string
 }
 
 func init() {

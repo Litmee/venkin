@@ -1,9 +1,11 @@
 package core
 
 import (
+	"database/sql"
 	"net/http"
 	"venkin/conf"
 	"venkin/logger"
+	"venkin/orm"
 )
 
 // Run Engine Start
@@ -37,6 +39,18 @@ func Run(c *conf.WebConf) {
 		allowHeadersBool = true
 	}
 	logger.LogRun("Cross-Domain Parameter Initialization Is Complete")
+
+	if c.MySqlAddr != "" {
+		// Connect to the database
+		db, err := sql.Open("mysql", c.MySqlAddr)
+		if err != nil {
+			panic("Database connection failed")
+		}
+		orm.GlobalDB = db
+		orm.GlobalDB.Ping()
+		defer orm.GlobalDB.Close()
+		logger.LogRun("Database connection succeeded")
+	}
 
 	// Call Check Function
 	go startCheck(conf.Ip + c.Port)

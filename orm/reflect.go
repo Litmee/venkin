@@ -43,5 +43,6 @@ func reflectTypeObj[T interface{}](columns []string, lastcols []driver.Value) *T
 		name = pT.Field(i).Tag.Get("json")
 		goto reflectField
 	}
+
 	return &t
 }

@@ -218,6 +218,7 @@ func (rs *Rows) Err() error {
 
 // Scan Rewritten golang built-in scan
 func (r *Row) Scan() error {
+
 	if r.err != nil {
 		return r.err
 	}

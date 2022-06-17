@@ -10,8 +10,8 @@ import (
 // GlobalDB global database handle
 var GlobalDB *sql.DB
 
-// global sql statement collection
-var sqlMap = make(map[string]map[string]string)
+// global preprocessing sql collection
+var preprocessSqlMap = make(map[string]*sql.Stmt)
 
 // InitGlobalDB initialization global database handle
 func InitGlobalDB(db *sql.DB) {

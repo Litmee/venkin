@@ -3,21 +3,21 @@ package orm
 import (
 	"database/sql"
 	"errors"
+	"log"
+	"sync"
 	"unsafe"
 )
 
 func getStmt(section, key string) (*sql.Stmt, error) {
-	// get sql
-	sqlStr, ok := getSqlMapValue(section, key)
-	if !ok {
-		return nil, errors.New("SQL Does Not Exist")
+
+	// search from the preprocessed sql collection
+	s, ok := preprocessSqlMap[section+key]
+
+	if ok {
+		return s, nil
 	}
-	// Preprocessing to prevent sql injection
-	stmt, err := GlobalDB.Prepare(sqlStr)
-	if err != nil {
-		return nil, err
-	}
-	return stmt, nil
+
+	return nil, errors.New("preprocessing SQL query exception")
 }
 
 // SelectOne Query a single data tool
@@ -25,11 +25,11 @@ func SelectOne[T interface{}](section, key string, args ...any) (*T, error) {
 
 	stmt, err := getStmt(section, key)
 	if err != nil {
+		log.Println("Failed to get stmt: ", err.Error())
 		return nil, err
 	}
 
 	row := stmt.QueryRow(args...)
-	defer stmt.Close()
 
 	// type conversion
 	// Converting the built-in type of golang to the framework copy is convenient for subsequent operations
@@ -37,6 +37,11 @@ func SelectOne[T interface{}](section, key string, args ...any) (*T, error) {
 
 	// Invokes an overridden Scan of the framework copy type
 	err = copyRow.Scan()
+
+	if err != nil {
+		log.Println("Scan err: " + err.Error())
+		return nil, err
+	}
 
 	// A collection of database fields to query
 	columns := copyRow.rows.rowsi.Columns()
@@ -51,13 +56,12 @@ func SelectOne[T interface{}](section, key string, args ...any) (*T, error) {
 }
 
 // SelectList Query multiple pieces of data tool
-func SelectList[T interface{}](section, key string, args ...any) ([]*T, error) {
+func SelectList[T interface{}](section, key string, args ...any) ([]T, error) {
 
 	stmt, err := getStmt(section, key)
 	if err != nil {
 		return nil, err
 	}
-	defer stmt.Close()
 
 	row, err := stmt.Query(args...)
 
@@ -68,25 +72,29 @@ func SelectList[T interface{}](section, key string, args ...any) ([]*T, error) {
 	// type conversion
 	// Converting the built-in type of golang to the framework copy is convenient for subsequent operations
 	copyRows := (*Rows)(unsafe.Pointer(row))
-	defer copyRows.Close()
 
-	var s []*T
+	defer row.Close()
+
+	var s []T
+
+	var columns []string
 
 	// cyclic read
 	for copyRows.Next() {
 
+		var once sync.Once
 		// A collection of database fields to query
-		columns, err := copyRows.Columns()
-		if err != nil {
-			return nil, err
-		}
+		once.Do(func() {
+			columns, _ = copyRows.Columns()
+		})
+
 		// Database field result collection
 		lastcols := copyRows.lastcols
 
 		// Generic type pointer definition
 		// reflection assignment
 		obj := reflectTypeObj[T](columns, lastcols)
-		s = append(s, obj)
+		s = append(s, *obj)
 	}
 
 	return s, nil
@@ -121,7 +129,6 @@ func insertAndUpdateAndDelete(section, key string, sign int8, args ...any) (int6
 	if err != nil {
 		return 0, err
 	}
-	defer stmt.Close()
 
 	res, err := stmt.Exec(args...)
 	if err != nil {

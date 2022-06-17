@@ -43,11 +43,15 @@ func Run(c *conf.WebConf) {
 	if c.MySqlAddr != "" {
 		// Connect to the database
 		db, err := sql.Open("mysql", c.MySqlAddr)
+		db.SetMaxIdleConns(3)
+		// Maximum number of connections
+		db.SetMaxOpenConns(20)
 		if err != nil {
 			panic("Database connection failed")
 		}
 		orm.GlobalDB = db
 		orm.GlobalDB.Ping()
+		orm.InitGlobalSqlMap()
 		defer orm.GlobalDB.Close()
 		logger.LogRun("Database connection succeeded")
 	}

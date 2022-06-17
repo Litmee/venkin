@@ -22,11 +22,13 @@ func reflectTypeObj[T interface{}](columns []string, lastcols []driver.Value) *T
 
 	n := pT.NumField()
 
+	var tag = "orm"
+
 	for i := 0; i < n; i++ {
 		// Get the name of a struct field
 		// Prefer the value of the field tag orm to refer to the assignment
-		name := pT.Field(i).Tag.Get("orm")
 	reflectField:
+		name := pT.Field(i).Tag.Get(tag)
 		v, ok := m[name]
 		if ok {
 			switch v.(type) {
@@ -39,9 +41,11 @@ func reflectTypeObj[T interface{}](columns []string, lastcols []driver.Value) *T
 			}
 			continue
 		}
-		// If the orm is not found then query from the tag json
-		name = pT.Field(i).Tag.Get("json")
-		goto reflectField
+		if tag == "orm" {
+			// If the orm is not found then query from the tag json
+			tag = "json"
+			goto reflectField
+		}
 	}
 
 	return &t

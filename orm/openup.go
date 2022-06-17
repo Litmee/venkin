@@ -21,12 +21,12 @@ func getStmt(section, key string) (*sql.Stmt, error) {
 }
 
 // SelectOne Query a single data tool
-func SelectOne[T interface{}](section, key string, args ...any) (*T, error) {
+func SelectOne[T interface{}](section, key string, args ...any) (T, error) {
 
 	stmt, err := getStmt(section, key)
 	if err != nil {
 		log.Println("Failed to get stmt: ", err.Error())
-		return nil, err
+		return *(new(T)), err
 	}
 
 	row := stmt.QueryRow(args...)
@@ -40,7 +40,7 @@ func SelectOne[T interface{}](section, key string, args ...any) (*T, error) {
 
 	if err != nil {
 		log.Println("Scan err: " + err.Error())
-		return nil, err
+		return *(new(T)), err
 	}
 
 	// A collection of database fields to query
@@ -52,7 +52,7 @@ func SelectOne[T interface{}](section, key string, args ...any) (*T, error) {
 	// reflection assignment
 	obj := reflectTypeObj[T](columns, lastcols)
 
-	return obj, nil
+	return *obj, nil
 }
 
 // SelectList Query multiple pieces of data tool
@@ -76,13 +76,12 @@ func SelectList[T interface{}](section, key string, args ...any) ([]T, error) {
 	defer row.Close()
 
 	var s []T
-
 	var columns []string
+	var once sync.Once
 
 	// cyclic read
 	for copyRows.Next() {
 
-		var once sync.Once
 		// A collection of database fields to query
 		once.Do(func() {
 			columns, _ = copyRows.Columns()
@@ -132,7 +131,7 @@ func insertAndUpdateAndDelete(section, key string, sign int8, args ...any) (int6
 
 	res, err := stmt.Exec(args...)
 	if err != nil {
-		return 0, nil
+		return 0, err
 	}
 
 	var id int64

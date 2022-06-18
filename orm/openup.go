@@ -131,6 +131,7 @@ func insertAndUpdateAndDelete(section, key string, sign int8, args ...any) (int6
 
 	res, err := stmt.Exec(args...)
 	if err != nil {
+		log.Println(err)
 		return 0, err
 	}
 

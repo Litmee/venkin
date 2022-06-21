@@ -67,7 +67,7 @@ func (h *HelloWord) Post() {
     user := core.GetReqBodyFunc[User](&h.ControllerImpl)
 
     // return data
-    h.SetRspBody([]byte(user.Name + " Say Hello World"))
+    h.SetRspBody(user.Name + " Say Hello World")
 }
 
 // The main function is added to the routing configuration

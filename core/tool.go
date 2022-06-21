@@ -1,7 +1,10 @@
 package core
 
 import (
+	"encoding/json"
+	"errors"
 	"net"
+	"net/http"
 	"venkin/logger"
 )
 
@@ -22,13 +25,15 @@ func GetReqBodyFunc[T interface{}](cI *ControllerImpl) *T {
 }
 
 // SetRspBody Return The Data Required By The Http Request
-func (cI *ControllerImpl) SetRspBody(data []byte) {
-	_, err := cI.w.Write(data)
+func (cI *ControllerImpl) SetRspBody(data any) {
+	marshal, err := json.Marshal(data)
 	if err != nil {
-		go func() {
-			logger.LogHttpWriteErr(err)
-		}()
+		logger.LogHttpWriteErr(errors.New("err: problem with JSON conversion"))
+		cI.w.WriteHeader(http.StatusInternalServerError)
+		cI.w.Write([]byte("err: problem with JSON conversion"))
+		return
 	}
+	cI.w.Write(marshal)
 }
 
 // Engine Start Check Function

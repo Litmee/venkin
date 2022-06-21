@@ -70,7 +70,7 @@ func (h *HelloWord) Post() {
     h.SetRspBody([]byte(user.Name + " Say Hello World"))
 }
 
-// main 函数加入路由配置
+// The main function is added to the routing configuration
 // The key of RouterMap is the path of the route, and the value is a pointer to its mapped route identification structure
 func main() {
 

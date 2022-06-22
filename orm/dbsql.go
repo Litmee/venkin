@@ -7,11 +7,12 @@ import (
 	"venkin/logger"
 )
 
-// GlobalDB global database handle
-var GlobalDB *sql.DB
-
-// global preprocessing sql collection
-var preprocessSqlMap = make(map[string]*sql.Stmt)
+var (
+	// GlobalDB global database handle
+	GlobalDB *sql.DB
+	// global preprocessing sql collection
+	preprocessSqlMap = make(map[string]*sql.Stmt)
+)
 
 // InitGlobalDB initialization global database handle
 func InitGlobalDB(db *sql.DB) {

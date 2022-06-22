@@ -57,12 +57,7 @@ func (cI *ControllerImpl) Get() {
 	}()
 	// 回写 http 请求状态
 	cI.w.WriteHeader(http.StatusNotFound)
-	_, err := cI.w.Write([]byte("404 Method Not Found"))
-	if err != nil {
-		go func() {
-			logger.LogHttpWriteErr(err)
-		}()
-	}
+	cI.w.Write([]byte("404 Method Not Found"))
 }
 
 // Post Route default POST request handling method
@@ -73,12 +68,7 @@ func (cI *ControllerImpl) Post() {
 	}()
 	// write-back http request status
 	cI.w.WriteHeader(http.StatusNotFound)
-	_, err := cI.w.Write([]byte("404 Method Not Found"))
-	if err != nil {
-		go func() {
-			logger.LogHttpWriteErr(err)
-		}()
-	}
+	cI.w.Write([]byte("404 Method Not Found"))
 }
 
 // Put Route default POST request handling method
@@ -89,12 +79,7 @@ func (cI *ControllerImpl) Put() {
 	}()
 	// write-back http request status
 	cI.w.WriteHeader(http.StatusNotFound)
-	_, err := cI.w.Write([]byte("404 Method Not Found"))
-	if err != nil {
-		go func() {
-			logger.LogHttpWriteErr(err)
-		}()
-	}
+	cI.w.Write([]byte("404 Method Not Found"))
 }
 
 // Delete Route the default DELETE request handler
@@ -105,12 +90,7 @@ func (cI *ControllerImpl) Delete() {
 	}()
 	// write-back http request status
 	cI.w.WriteHeader(http.StatusNotFound)
-	_, err := cI.w.Write([]byte("404 Method Not Found"))
-	if err != nil {
-		go func() {
-			logger.LogHttpWriteErr(err)
-		}()
-	}
+	cI.w.Write([]byte("404 Method Not Found"))
 }
 
 // Other Route default other types of request processing methods
@@ -121,10 +101,5 @@ func (cI *ControllerImpl) Other() {
 	}()
 	// write-back http request status
 	cI.w.WriteHeader(http.StatusNotFound)
-	_, err := cI.w.Write([]byte("404 Method Not Found"))
-	if err != nil {
-		go func() {
-			logger.LogHttpWriteErr(err)
-		}()
-	}
+	cI.w.Write([]byte("404 Method Not Found"))
 }

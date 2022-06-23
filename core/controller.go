@@ -16,6 +16,6 @@ type Controller interface {
 	Delete()
 	Other()
 	initReq(r *http.Request)
-	initRsp(w http.ResponseWriter)
+	initRsp(w *http.ResponseWriter)
 	judgeMethod(m string, c Controller)
 }

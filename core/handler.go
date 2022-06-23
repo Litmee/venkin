@@ -34,7 +34,7 @@ func handOutCore(w *http.ResponseWriter, r *http.Request) {
 			// Obtain the business structure of the user-built routing control layer through reflection
 			copyC := reflect.New(reflect.TypeOf(c).Elem()).Interface().(Controller)
 			// initialization ResponseWriter & Request
-			copyC.initRsp(*w)
+			copyC.initRsp(w)
 			copyC.initReq(r)
 			// http method speculative execution
 			copyC.judgeMethod(r.Method, copyC)

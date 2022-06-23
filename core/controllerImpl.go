@@ -18,8 +18,8 @@ func (cI *ControllerImpl) initReq(r *http.Request) {
 }
 
 // structure http.ResponseWriter parameter initialization method
-func (cI *ControllerImpl) initRsp(w http.ResponseWriter) {
-	cI.w = w
+func (cI *ControllerImpl) initRsp(w *http.ResponseWriter) {
+	cI.w = *w
 }
 
 // Infer method, decide which request to call

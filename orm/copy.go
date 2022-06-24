@@ -44,7 +44,7 @@ type Rows struct {
 	dc          *driverConn // owned; must call releaseConn when closed to release
 	releaseConn func(error)
 	rowsi       driver.Rows
-	cancel      func()      // called when Rows is closed, may be nil.
+	cancel      func()      // called when Rows are closed, may be nil.
 	closeStmt   *driverStmt // if non-nil, statement to Close on close
 
 	// closemu prevents Rows from closing while there

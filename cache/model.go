@@ -4,7 +4,7 @@ import "sync"
 
 var (
 	// cache model
-	cache map[string]any
+	cache = make(map[string]any)
 	// Read-write lock
 	l sync.RWMutex
 )

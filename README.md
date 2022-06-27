@@ -82,3 +82,5 @@ func main() {
 }
 ```
 <img src="docs/example.png" width="1831" height="574" alt="example"/>
+
+### Use Of Framework ORM Parts

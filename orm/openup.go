@@ -21,12 +21,12 @@ func getStmt(section, key string) (*sql.Stmt, error) {
 }
 
 // SelectOne Query a single data tool
-func SelectOne[T interface{}](section, key string, args ...any) (T, error) {
+func SelectOne[T interface{}](section, key string, args ...any) (*T, error) {
 
 	stmt, err := getStmt(section, key)
 	if err != nil {
 		log.Println("Failed to get stmt: ", err.Error())
-		return *(new(T)), err
+		return nil, err
 	}
 
 	row := stmt.QueryRow(args...)
@@ -40,7 +40,7 @@ func SelectOne[T interface{}](section, key string, args ...any) (T, error) {
 
 	if err != nil {
 		log.Println("Scan err: " + err.Error())
-		return *(new(T)), err
+		return nil, err
 	}
 
 	// A collection of database fields to query
@@ -52,11 +52,11 @@ func SelectOne[T interface{}](section, key string, args ...any) (T, error) {
 	// reflection assignment
 	obj := reflectTypeObj[T](columns, lastcols)
 
-	return *obj, nil
+	return obj, nil
 }
 
 // SelectList Query multiple pieces of data tool
-func SelectList[T interface{}](section, key string, args ...any) ([]T, error) {
+func SelectList[T interface{}](section, key string, args ...any) ([]*T, error) {
 
 	stmt, err := getStmt(section, key)
 	if err != nil {
@@ -75,7 +75,7 @@ func SelectList[T interface{}](section, key string, args ...any) ([]T, error) {
 
 	defer row.Close()
 
-	var s []T
+	var s []*T
 	var columns []string
 	var once sync.Once
 
@@ -93,7 +93,7 @@ func SelectList[T interface{}](section, key string, args ...any) ([]T, error) {
 		// Generic type pointer definition
 		// reflection assignment
 		obj := reflectTypeObj[T](columns, lastcols)
-		s = append(s, *obj)
+		s = append(s, obj)
 	}
 
 	return s, nil

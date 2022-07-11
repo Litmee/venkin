@@ -55,7 +55,7 @@ func (cI *ControllerImpl) Get() {
 	go func() {
 		logger.LogHttpMethodErr(cI.r.URL.String(), cI.r.Method)
 	}()
-	// 回写 http 请求状态
+	// write-back http request status
 	cI.w.WriteHeader(http.StatusNotFound)
 	cI.w.Write([]byte("404 Method Not Found"))
 }

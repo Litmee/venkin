@@ -20,6 +20,7 @@ var (
 	lInterface sync.RWMutex
 )
 
+// SetCacheString Insert string type data
 func SetCacheString(key string, value *string) {
 	_, ok := stringCache[key]
 	if ok {
@@ -29,6 +30,7 @@ func SetCacheString(key string, value *string) {
 	stringCache[key] = value
 }
 
+// GetCacheString Get data of type string
 func GetCacheString(key string) *string {
 	lString.RLock()
 	defer lString.RUnlock()

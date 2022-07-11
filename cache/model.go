@@ -41,6 +41,7 @@ func GetCacheString(key string) *string {
 	return nil
 }
 
+// SetCacheInt64 Insert data of type int64
 func SetCacheInt64(key string, value *int64) {
 	_, ok := int64Cache[key]
 	if ok {
@@ -50,6 +51,7 @@ func SetCacheInt64(key string, value *int64) {
 	int64Cache[key] = value
 }
 
+// GetCacheInt64 Get data of type int64
 func GetCacheInt64(key string) *int64 {
 	lInt64.RLock()
 	defer lInt64.RUnlock()

@@ -26,6 +26,7 @@ func readIni(fileName string) {
 				panic("Error reading file")
 			}
 		}
+		// remove spaces
 		line = strings.TrimSpace(line)
 		if strings.HasPrefix(line, "[") && strings.HasSuffix(line, "]") {
 			currentSection = line[1 : len(line)-1]

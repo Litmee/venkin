@@ -22,6 +22,7 @@ type WebConf struct {
 }
 
 func init() {
+	// Default configuration properties
 	DefaultWebConf = &WebConf{
 		Port:                "8062",
 		IsGlobalInterceptor: nil,

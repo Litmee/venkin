@@ -50,7 +50,7 @@ func handOutCore(w *http.ResponseWriter, r *http.Request) {
 		(*w).WriteHeader(http.StatusMethodNotAllowed)
 		_, err := (*w).Write([]byte("405 is interceptor"))
 		if err != nil {
-			logger.LogHttpWriteErr(err)
+			// logger.LogHttpWriteErr(err)
 			return
 		}
 	}

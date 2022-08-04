@@ -182,8 +182,8 @@ func (rs *Rows) Next() bool {
 	return ok
 }
 
-// Columns returns the column names.
-// returns an error if the rows are closed.
+// Columns returns the column names
+// returns an error if the rows are closed
 func (rs *Rows) Columns() ([]string, error) {
 	rs.closemu.RLock()
 	defer rs.closemu.RUnlock()

@@ -51,55 +51,36 @@ func (cI *ControllerImpl) judgeMethod(m string, c Controller) {
 
 // Get Route default GET request handling method
 func (cI *ControllerImpl) Get() {
-	// Start new coroutine logging
-	go func() {
-		logger.LogHttpMethodErr(cI.r.URL.String(), cI.r.Method)
-	}()
-	// write-back http request status
-	cI.w.WriteHeader(http.StatusNotFound)
-	cI.w.Write([]byte("404 Method Not Found"))
+	unifiedNoMethod(cI)
 }
 
 // Post Route default POST request handling method
 func (cI *ControllerImpl) Post() {
-	// Start new coroutine logging
-	go func() {
-		logger.LogHttpMethodErr(cI.r.URL.String(), cI.r.Method)
-	}()
-	// write-back http request status
-	cI.w.WriteHeader(http.StatusNotFound)
-	cI.w.Write([]byte("404 Method Not Found"))
+	unifiedNoMethod(cI)
 }
 
 // Put Route default POST request handling method
 func (cI *ControllerImpl) Put() {
-	// Start new coroutine logging
-	go func() {
-		logger.LogHttpMethodErr(cI.r.URL.String(), cI.r.Method)
-	}()
-	// write-back http request status
-	cI.w.WriteHeader(http.StatusNotFound)
-	cI.w.Write([]byte("404 Method Not Found"))
+	unifiedNoMethod(cI)
 }
 
 // Delete Route the default DELETE request handler
 func (cI *ControllerImpl) Delete() {
-	// Start new coroutine logging
-	go func() {
-		logger.LogHttpMethodErr(cI.r.URL.String(), cI.r.Method)
-	}()
-	// write-back http request status
-	cI.w.WriteHeader(http.StatusNotFound)
-	cI.w.Write([]byte("404 Method Not Found"))
+	unifiedNoMethod(cI)
 }
 
 // Other Route default other types of request processing methods
 func (cI *ControllerImpl) Other() {
+	unifiedNoMethod(cI)
+}
+
+// Unified processing function for non-existent request methods
+func unifiedNoMethod(c *ControllerImpl) {
 	// Start new coroutine logging
 	go func() {
-		logger.LogHttpMethodErr(cI.r.URL.String(), cI.r.Method)
+		logger.LogHttpMethodErr(c.r.URL.String(), c.r.Method)
 	}()
 	// write-back http request status
-	cI.w.WriteHeader(http.StatusNotFound)
-	cI.w.Write([]byte("404 Method Not Found"))
+	c.w.WriteHeader(http.StatusNotFound)
+	c.w.Write([]byte("404 Method Not Found"))
 }

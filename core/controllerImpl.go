@@ -76,10 +76,8 @@ func (cI *ControllerImpl) Other() {
 
 // Unified processing function for non-existent request methods
 func unifiedNoMethod(c *ControllerImpl) {
-	// Start new coroutine logging
-	go func() {
-		logger.LogHttpMethodErr(c.r.URL.String(), c.r.Method)
-	}()
+	// logging
+	logger.LogHttpMethodErr(c.r.URL.String(), c.r.Method)
 	// write-back http request status
 	c.w.WriteHeader(http.StatusNotFound)
 	c.w.Write([]byte("404 Method Not Found"))

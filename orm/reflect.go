@@ -14,6 +14,7 @@ func reflectTypeObj[T interface{}](columns []string, lastcols []driver.Value) *T
 		m[v] = lastcols[i]
 	}
 
+	// receive the reflected value
 	var t T
 
 	// reflection

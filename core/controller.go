@@ -8,7 +8,7 @@ import "net/http"
 // Post()     Http POST Request
 // Put()      Http PUT Request
 // Delete()   Http DELETE Request
-// Other()    Http Other Requests
+// Other()    Http OTHER Requests
 type Controller interface {
 	Get()
 	Post()

@@ -109,7 +109,10 @@ func (rs *Rows) close(err error) error {
 	}
 
 	if rs.closeStmt != nil {
-		rs.closeStmt.Close()
+		err := rs.closeStmt.Close()
+		if err != nil {
+			return err
+		}
 	}
 	rs.releaseConn(err)
 	return err

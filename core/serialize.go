@@ -29,9 +29,7 @@ func (cI *ControllerImpl) jsonCheckAndSerialize(c Controller) bool {
 			if err != nil {
 				cI.w.WriteHeader(http.StatusInternalServerError)
 				cI.w.Write([]byte("An exception occurred in JSON serialization, please confirm the Content-Type type and data structure of the request"))
-				go func() {
-					logger.LogJsonSerialize(err)
-				}()
+				logger.LogJsonSerialize(err)
 				return false
 			}
 		}

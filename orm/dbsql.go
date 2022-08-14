@@ -31,7 +31,7 @@ func InitGlobalSqlMap() {
 	// Check if a directory exists in the agreed path
 	if !fileExist(sqlConf) {
 		logger.LogRun("It is detected that the sqlmap directory does not exist in the project root directory, and the initialization of some ORM function parameters has not been completed")
-		logger.LogRun("At this point, an error will occur when using the functions provided by the framework to operate the database")
+		logger.LogRun("At this point, an error will occur when using the functions provided by the framework to operate the database.")
 		return
 	}
 	// If the directory exists, retrieve the .ini file in the directory

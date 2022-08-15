@@ -29,7 +29,7 @@ func (cI *ControllerImpl) judgeMethod(m string, c Controller) {
 		return
 	}
 	// After the JSON serialization is successful
-	// the method corresponding to the implementation of the control layer model is called according to the method type of the http request
+	// The method corresponding to the implementation of the control layer model is called according to the method type of the http request
 	if m == "GET" {
 		c.Get()
 		return

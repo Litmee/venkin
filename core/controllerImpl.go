@@ -29,20 +29,20 @@ func (cI *ControllerImpl) judgeMethod(m string, c Controller) {
 		return
 	}
 	// After the JSON serialization is successful
-	// the method corresponding to the implementation of the control layer model is called according to the method type of the http request
-	if m == "GET" {
+	// The method corresponding to the implementation of the control layer model is called according to the method type of the http request
+	if m == http.MethodGet {
 		c.Get()
 		return
 	}
-	if m == "POST" {
+	if m == http.MethodPost {
 		c.Post()
 		return
 	}
-	if m == "PUT" {
+	if m == http.MethodPut {
 		c.Put()
 		return
 	}
-	if m == "DELETE" {
+	if m == http.MethodDelete {
 		c.Delete()
 		return
 	}

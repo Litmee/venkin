@@ -14,9 +14,9 @@ var (
 	int64Cache = make(map[string]*int64)
 	// int64 cache map Read-write lock
 	lInt64 sync.RWMutex
-	// struct cache map
+	// interface{} cache map
 	interfaceCache = make(map[string]interface{})
-	// struct cache map Read-write lock
+	// interface{} cache map Read-write lock
 	lInterface sync.RWMutex
 )
 

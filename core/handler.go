@@ -26,7 +26,7 @@ func (g *GlobalHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 // Request distribution center function
 func handOutCore(w *http.ResponseWriter, r *http.Request) {
 	// Global interceptor judgment
-	a, b := conf.GlobalInterceptorFunc(w, r)
+	a, b := conf.IsGlobalInterceptor.Interceptor(w, r)
 	if a {
 		// get route map
 		c, ok := RouterMap[r.URL.Path]

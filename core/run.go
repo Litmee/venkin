@@ -22,8 +22,10 @@ func Run(c *conf.WebConf) {
 		logger.LogRun("##################### Default Configuration Enabled #####################")
 	}
 	// Configure Global Interceptors
-	conf.IsGlobalInterceptor = c.IsGlobalInterceptor
-	logger.LogRun("The Interceptor Is Initialized")
+	if c.IsGlobalInterceptor != nil {
+		conf.IsGlobalInterceptor = c.IsGlobalInterceptor
+		logger.LogRun("The Interceptor Is Initialized")
+	}
 
 	// Preprocessing Of Cross-Domain Parameters
 	if c.AllowOrigin != "" {

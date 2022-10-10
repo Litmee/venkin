@@ -3,7 +3,7 @@ package conf
 import "net/http"
 
 // IsGlobalInterceptor Global interceptor parameters
-var IsGlobalInterceptor GlobalInterceptor
+var IsGlobalInterceptor GlobalInterceptor = &DefaultInterceptor{}
 
 // GlobalInterceptor Global interceptor interface
 // Custom interceptors need to implement this interface
@@ -15,10 +15,11 @@ type GlobalInterceptor interface {
 	Interceptor(w *http.ResponseWriter, r *http.Request) (bool, bool)
 }
 
-// GlobalInterceptorFunc Global interceptor verification method
-func GlobalInterceptorFunc(w *http.ResponseWriter, r *http.Request) (bool, bool) {
-	if IsGlobalInterceptor != nil {
-		return IsGlobalInterceptor.Interceptor(w, r)
-	}
+// DefaultInterceptor The interceptor interface that comes with the framework implements the structure
+// Of course it does not have the actual interception function
+type DefaultInterceptor struct{}
+
+// Interceptor Global interceptor verification method
+func (di *DefaultInterceptor) Interceptor(w *http.ResponseWriter, r *http.Request) (bool, bool) {
 	return true, false
 }

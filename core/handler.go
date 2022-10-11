@@ -28,7 +28,7 @@ func handOutCore(w *http.ResponseWriter, r *http.Request) {
 	// Global interceptor judgment
 	a, b := conf.IsGlobalInterceptor.Interceptor(w, r)
 	if a {
-		// get route map
+		// Get route map
 		c, ok := RouterMap[r.URL.Path]
 		if ok {
 			// Obtain the business structure of the user-built routing control layer through reflection

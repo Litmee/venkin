@@ -14,6 +14,7 @@ func readIni(fileName string) {
 	if err != nil {
 		panic("Error opening file")
 	}
+
 	defer fo.Close()
 
 	// read file

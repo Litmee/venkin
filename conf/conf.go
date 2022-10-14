@@ -1,5 +1,6 @@
 package conf
 
+// Ip 全局 ip 配置参数
 const Ip = "127.0.0.1:"
 
 // DefaultWebConf Default global configuration parameters

@@ -76,6 +76,7 @@ func GetCacheInterface[T interface{}](key string) *T {
 	defer lInterface.RUnlock()
 	v, ok := interfaceCache[key]
 	if ok {
+		// reflection
 		if reflect.ValueOf(v).Kind() != reflect.Pointer {
 			t := v.(T)
 			return &t

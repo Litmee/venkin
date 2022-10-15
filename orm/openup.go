@@ -31,7 +31,7 @@ func SelectOne[T interface{}](section, key string, args ...any) (*T, error) {
 
 	row := stmt.QueryRow(args...)
 
-	// type conversion
+	// Type conversion
 	// Converting the built-in type of golang to the framework copy is convenient for subsequent operations
 	copyRow := (*Row)(unsafe.Pointer(row))
 

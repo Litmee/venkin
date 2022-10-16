@@ -6,6 +6,7 @@ import (
 	"time"
 )
 
+// reflectTypeObj
 func reflectTypeObj[T interface{}](columns []string, lastcols []driver.Value) *T {
 
 	// Database fields and values are mapped

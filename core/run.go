@@ -14,12 +14,12 @@ func Run(c *conf.WebConf) {
 	if c == nil {
 		// Enable Default Configuration
 		c = conf.DefaultWebConf
-		logger.LogRun("##################### Default Configuration Enabled #####################")
+		logger.LogRun("###################### Default Configuration Enabled ######################")
 		logger.LogRun("Port: " + c.Port)
 		logger.LogRun("GlobalInterceptor: nil")
 		logger.LogRun("Access-Control-Allow-Origin: " + c.AllowOrigin)
 		logger.LogRun("Access-Control-Allow-Headers: " + c.AllowHeaders)
-		logger.LogRun("##################### Default Configuration Enabled #####################")
+		logger.LogRun("###################### Default Configuration Enabled ######################")
 	}
 	// Configure Global Interceptors
 	if c.IsGlobalInterceptor != nil {
